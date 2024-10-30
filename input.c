@@ -536,7 +536,7 @@ void input_get(struct input *input, bool *quit)
         toggle_mode_select(input);
         break;
 
-    case 'y':
+    case 'j':
         do_yank(input);
         break;
 
@@ -558,7 +558,7 @@ void input_get(struct input *input, bool *quit)
         cur_move_rel(input, MOVE_RIGHT, do_paste(input), 1);
         break;
 
-    case 'i':
+    case ';':
         toggle_mode_insert(input);
         break;
 
@@ -576,7 +576,7 @@ void input_get(struct input *input, bool *quit)
         view_dirty_from(V, 0); /* FIXME suboptimal */
         break;
 
-    case 0x12: /* ctrl + R */
+    case 0x06: /* ctrl + f */
         if (input->mode != INPUT) break;
         if (!blob_redo(B, &input->cur))
             break;
@@ -586,7 +586,7 @@ void input_get(struct input *input, bool *quit)
         view_dirty_from(V, 0); /* FIXME suboptimal */
         break;
 
-    case 0x7: /* ctrl + G */
+    case 0x07: /* ctrl + G */
         {
              char buf[256];
              snprintf(buf, sizeof(buf), "\"%s\" %s%s %zd/%zd bytes --%zd%%--",
@@ -604,7 +604,7 @@ void input_get(struct input *input, bool *quit)
         view_dirty_from(V, 0);
         break;
 
-    case ':':
+    case 'y':
         printf("\x1b[%uH", V->rows); /* move to last line */
         view_text(V, false);
         printf(":");
@@ -622,11 +622,11 @@ void input_get(struct input *input, bool *quit)
         view_visual(V);
         break;
 
-    case 'n':
+    case 'k':
         do_search_cont(input, +1);
         break;
 
-    case 'N':
+    case 'K':
         do_search_cont(input, -1);
         break;
 
@@ -638,22 +638,22 @@ void input_get(struct input *input, bool *quit)
         do_inc_dec(input, -1);
         break;
 
-    case 'j':
+    case 'N':
     case KEY_SPECIAL_DOWN:
         cur_move_rel(input, MOVE_RIGHT, 1, V->cols);
         break;
 
-    case 'k':
+    case 'E':
     case KEY_SPECIAL_UP:
         cur_move_rel(input, MOVE_LEFT, 1, V->cols);
         break;
 
-    case 'l':
+    case 'O':
     case KEY_SPECIAL_RIGHT:
         cur_move_rel(input, MOVE_RIGHT, 1, 1);
         break;
 
-    case 'h':
+    case 'I':
     case KEY_SPECIAL_LEFT:
         cur_move_rel(input, MOVE_LEFT, 1, 1);
         break;
@@ -676,12 +676,12 @@ void input_get(struct input *input, bool *quit)
         do_home_end(input, min(V->start + V->rows * V->cols - 1, cur_bound(input) - 1), cur_bound(input) - 1);
         break;
 
-    case 0x15: /* ctrl + U */
+    case 0x05: /* ctrl + E */
     case KEY_SPECIAL_PGUP:
         do_pgup_pgdown(input, sat_sub_step);
         break;
 
-    case 0x4: /* ctrl + D */
+    case 0x0E: /* ctrl + N */
     case KEY_SPECIAL_PGDOWN:
         do_pgup_pgdown(input, sat_add_step);
         break;
